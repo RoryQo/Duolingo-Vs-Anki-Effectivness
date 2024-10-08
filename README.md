@@ -43,6 +43,8 @@ We create boxplots to visualize the final exam scores for both apps and perform 
 
 Next, we plot the relationship between the hours spent using the apps and the final exam scores. Linear regression lines are added for each app to illustrate trends.
 
+<img src="https://raw.githubusercontent.com/RoryQo/DuoLingo-Vs-Anki-Effectivness/main/graph2.jpg" alt="Scatterplot" width="400"/>
+
 ### 3. Testing Appropriateness of ANCOVA
 
 We assess the appropriateness of using ANCOVA by comparing models with and without interaction terms.
