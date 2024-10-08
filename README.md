@@ -31,6 +31,12 @@ The findings underscore the effectiveness of Duolingo as a language learning too
 
 We start by loading the necessary data and separating it by app type.
 
+```{r}
+languages = read.table("languages.csv", header = TRUE, sep = ",")
+duolingo = languages[which(languages$app == "Duolingo"),]
+anki = languages[which(languages$app == "Anki"),]
+```
+
 ## Visualizations and Statistical Tests
 
 ### 1. Boxplots and Two-Sample T-Test
@@ -49,6 +55,21 @@ Next, we plot the relationship between the hours spent using the apps and the fi
 
 We assess the appropriateness of using ANCOVA by comparing models with and without interaction terms.
 
+```{r}
+languages$duolingo = ifelse(languages$app == "Duolingo", 1, 0)
+full = lm(final ~ hours + duolingo + hours*duolingo, data = languages)
+reduced = lm(final ~ hours + duolingo, data = languages)
+anova(full)
+anova(reduced)
+```
+
 ### 4. Testing Equality of Adjusted Means
 
 Finally, we check for equality of adjusted means between the two groups to see if the differences in final scores are statistically significant.
+
+```{r}
+full = lm(final ~ hours + duolingo, data = languages)
+reduced = lm(final ~ hours, data = languages)
+anova(full)
+anova(reduced)
+```
