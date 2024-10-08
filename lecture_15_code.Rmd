@@ -1,0 +1,80 @@
+---
+title: "Language Learning Platforms"
+output:
+  html_document:
+    df_print: paged
+---
+### Scenario
+
+Students in a foreign language course choose to use
+Duolingo or Anki to help study for the final exam. Compare number
+of hours using the app against final exam score across app type.
+
+
+Read in data
+
+```{r}
+languages = read.table("languages.csv", header = TRUE, sep = ",")
+duolingo = languages[which(languages$app == "Duolingo"),]
+anki = languages[which(languages$app == "Anki"),]
+colnames(anki)
+colnames(duolingo)
+```
+
+Boxplots and two-sample t-test
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+
+# Create a more attractive boxplot
+ggplot(languages, aes(x = app, y = final, fill = app)) +
+  geom_boxplot(outlier.colour = "red", outlier.shape = 16, outlier.size = 2) +
+  labs(title = "Final Exam Scores by App Type",
+       x = "App Type",
+       y = "Final Exam Score") +
+  scale_fill_manual(values = c("Duolingo" = "skyblue", "Anki" = "salmon")) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+T Test
+
+```{r}
+t.test(duolingo$final, anki$final, alternative = "two.sided", var.equal = FALSE)
+```
+
+Scatterplot
+
+```{r}
+colors = c("red", "blue")
+plot(languages$hours, languages$final, pch = 19, col = colors[factor(languages$app)], xlab = "Hours Used", ylab = "Final Exam Score")
+legend("topleft", legend = c("Anki", "Duolingo"), pch = 19, col = colors)  # Put the legend in the top right corner
+abline(lm(final ~ hours, data = duolingo), col = "blue")
+abline(lm(final ~ hours, data = anki), col = "red")
+```
+
+Final exam score - Test for appropriateness of ANACOVA
+
+```{r}
+languages$duolingo = ifelse(languages$app == "Duolingo", 1, 0)
+full = lm(final ~ hours + duolingo + hours*duolingo, data = languages)
+reduced = lm(final ~ hours + duolingo, data = languages)
+anova(full)
+anova(reduced)
+```
+
+Final exam score - Test for equality of adjusted means
+
+```{r}
+full = lm(final ~ hours + duolingo, data = languages)
+reduced = lm(final ~ hours, data = languages)
+anova(full)
+anova(reduced)
+```
+
+
+### Results 
+
+After an inital analysis Duolingo users appear to perform better on avereage on the test, Duolingo users also studied for more hours on average.  This longer time studying could be a results of the more enjoyable gamification of learning that Duolingo implements, and be a testimate to their systems.  Going deeper to discover if Duolingo still outpreforms Anki on an hour basis we conduct a test.  After adjusting the mean scores of both groups (Duoling and Anki), Duolingo users still significantly outpreform Anki Users.  This indicates that on a per hour return basis Duolingo is superior to Anki, and overall the interface and learning curriculum implemented by Duolingo could contribute to users spending more time overall studying.  These 2 effects combined show the superiority of Duolingos platform to learning languages.
