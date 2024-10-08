@@ -19,7 +19,7 @@ In this analysis, we compare the study habits of students using either Duolingo 
 
 ## Results
 
-The analysis reveals that Duolingo users generally perform better on average and study longer compared to Anki users. This increased study time could be attributed to the engaging gamification aspects of Duolingo, encouraging users to invest more time in their learning. 
+The analysis reveals that Duolingo users generally perform better on average and study longer compared to Anki users. This increased study time could be attributed to the engaging gamification aspects of Duolingo, which encourage users to invest more time in their learning. 
 
 Moreover, when adjusting for hours studied, Duolingo users still significantly outperform Anki users, indicating that Duolingo is more effective on a per-hour basis. The combined evidence suggests that both the interface and learning curriculum of Duolingo contribute to its superiority in language learning.
 
@@ -53,7 +53,7 @@ Next, we plot the relationship between the hours spent using the apps and the fi
 
 ### 3. Testing Appropriateness of ANCOVA
 
-We assess the appropriateness of using ANCOVA by comparing models with and without interaction terms.
+We assess the appropriateness of using ANCOVA by comparing models with and without interaction terms.  The interaction term of hours and Duolingo is not statistically significant, so we can proceed with a reduced ANCOVA model (not including the interaction term).
 
 ```{r}
 languages$duolingo = ifelse(languages$app == "Duolingo", 1, 0)
@@ -65,7 +65,7 @@ anova(reduced)
 
 ### 4. Testing Equality of Adjusted Means
 
-Finally, we check for equality of adjusted means between the two groups to see if the differences in final scores are statistically significant.
+Finally, we check for equality of adjusted means between the two groups to see if the differences in final scores are statistically significant.  Duolingo outperforms Anki at a 90% confidence level.
 
 ```{r}
 full = lm(final ~ hours + duolingo, data = languages)
