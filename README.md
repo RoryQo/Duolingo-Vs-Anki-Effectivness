@@ -37,7 +37,7 @@ We start by loading the necessary data and separating it by app type.
 
 We create boxplots to visualize the final exam scores for both apps and perform a two-sample t-test to compare their means.
 
-<img src="https://github.com/RoryQo/DuoLingo-Vs-Anki-Effectivness/blob/main/Graph1.jpg" alt="Scatterplot" width="400"/>
+<img src="https://raw.githubusercontent.com/RoryQo/DuoLingo-Vs-Anki-Effectivness/main/graph1.jpg" alt="Scatterplot" width="400"/>
 
 ### 2. Scatterplot
 
