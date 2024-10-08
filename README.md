@@ -37,6 +37,8 @@ We start by loading the necessary data and separating it by app type.
 
 We create boxplots to visualize the final exam scores for both apps and perform a two-sample t-test to compare their means.
 
+<img src="https://github.com/RoryQo/DuoLingo-Vs-Anki-Effectivness/blob/main/Graph1.jpg" alt="Scatterplot" width="400"/>
+
 ### 2. Scatterplot
 
 Next, we plot the relationship between the hours spent using the apps and the final exam scores. Linear regression lines are added for each app to illustrate trends.
