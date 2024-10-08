@@ -48,11 +48,16 @@ t.test(duolingo$final, anki$final, alternative = "two.sided", var.equal = FALSE)
 Scatterplot
 
 ```{r}
-colors = c("red", "blue")
-plot(languages$hours, languages$final, pch = 19, col = colors[factor(languages$app)], xlab = "Hours Used", ylab = "Final Exam Score")
-legend("topleft", legend = c("Anki", "Duolingo"), pch = 19, col = colors)  # Put the legend in the top right corner
-abline(lm(final ~ hours, data = duolingo), col = "blue")
-abline(lm(final ~ hours, data = anki), col = "red")
+ggplot(languages, aes(x = hours, y = final, color = app)) +
+  geom_point(size = 3, alpha = 0.7) +  # Adjust point size and transparency
+  geom_smooth(method = "lm", se = FALSE, aes(color = app), linetype = "dashed") +  # Add regression lines
+  labs(title = "Final Exam Scores vs. Hours Used",
+       x = "Hours Used",
+       y = "Final Exam Score") +
+  scale_color_manual(values = c("Duolingo" = "blue", "Anki" = "red")) +
+  theme_minimal() +
+  theme(legend.position = "top",  # Move the legend to the top
+        plot.title = element_text(hjust = 0.5))  # Center the title
 ```
 
 Final exam score - Test for appropriateness of ANACOVA
