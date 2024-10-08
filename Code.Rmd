@@ -27,7 +27,7 @@ Boxplots and two-sample t-test
 # Load necessary libraries
 library(ggplot2)
 
-# Create a more attractive boxplot
+
 ggplot(languages, aes(x = app, y = final, fill = app)) +
   geom_boxplot(outlier.colour = "red", outlier.shape = 16, outlier.size = 2) +
   labs(title = "Final Exam Scores by App Type",
@@ -50,11 +50,11 @@ Scatterplot
 ```{r}
 ggplot(languages, aes(x = hours, y = final, color = app)) +
   geom_point(size = 3, alpha = 0.7) +  # Adjust point size and transparency
-  geom_smooth(method = "lm", se = FALSE, aes(color = app), linetype = "dashed") +  # Add regression lines
+  geom_smooth(method = "lm", se = FALSE, aes(color = app), linetype = "solid") +  # Add solid regression lines
   labs(title = "Final Exam Scores vs. Hours Used",
        x = "Hours Used",
        y = "Final Exam Score") +
-  scale_color_manual(values = c("Duolingo" = "blue", "Anki" = "red")) +
+  scale_color_manual(values = c("Duolingo" = "#4C8BF9", "Anki" = "#F26B6B")) +  # Softer colors
   theme_minimal() +
   theme(legend.position = "top",  # Move the legend to the top
         plot.title = element_text(hjust = 0.5))  # Center the title
