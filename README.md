@@ -1,7 +1,7 @@
 # Comparison of Language Learning Platforms
  
 ## Table of Contents
-
+ 
 1. [Overview](#overview) 
 2. [Scenario](#scenario)
 3. [Results](#results)
