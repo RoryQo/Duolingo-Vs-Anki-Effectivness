@@ -13,7 +13,7 @@
 
 This document explores the effectiveness of two language learning applications—Duolingo and Anki—by analyzing how the number of hours spent using each app correlates with students' final exam scores in a foreign language course.
 
-## Scenario
+## Scenario 
 
 In this analysis, we compare the study habits of students using either Duolingo or Anki to understand their impact on exam performance.
 
