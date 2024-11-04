@@ -1,4 +1,4 @@
-# Comparison of Language Learning Platforms   
+# Comparison of Language Learning Platforms    
      
 ## Table of Contents 
   
