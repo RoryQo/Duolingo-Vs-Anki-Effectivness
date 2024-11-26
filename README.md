@@ -1,5 +1,5 @@
 # Comparison of Language Learning Platforms    
-     
+      
 ## Table of Contents 
   
 1. [Overview](#overview)  
