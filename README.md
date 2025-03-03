@@ -36,9 +36,19 @@ We start by plotting **boxplots** to visualize the distribution of final exam sc
 
 
 #### Levene’s Test for Equality of Variances and T-Tests
-Before performing the two-sample t-test, we first test whether the assumption of **equal variances** holds. We do this by conducting **Levene's Test**. This test checks for the equality of variances across the two groups (Duolingo and Anki). If the p-value from the Levene's test is greater than 0.05, we assume equal variances; otherwise, we proceed with the unequal variance assumption.
+Before performing the two-sample t-test, we first test whether the assumption of **equal variances** holds. We do this by conducting **Levene's Test**. This test checks for the equality of variances across the two groups (Duolingo and Anki). The **Levene’s test** suggests unequal variances (p-value < 0.05), therefore we proceed with a **Welch’s t-test**, which is a variation of the t-test that does not assume equal variances. We perform a t-test to identify any initial significant difference between the final exam scores of both groups. Before controlling for hours spent studying, the Duolingo users have a significantly higher average final exam score.
 
-The **Levene’s test** suggests unequal variances (p-value < 0.05), therefore we proceed with a **Welch’s t-test**, which is a variation of the t-test that does not assume equal variances. We perform a t-test to identify any initial significant difference between the final exam scores of both groups. Before controlling for hours spent studying, the Duolingo users have a significantly higher average final exam score.
+The two-sample t-test results comparing Duolingo and Anki final exam scores are as follows:
+
+| Statistic        | Value      |
+|------------------|------------|
+| t-value          | 3.2044     |
+| Degrees of Freedom| 26.279     |
+| p-value          | 0.003534   |
+| Confidence Interval (95%) | [2.512, 11.488] |
+| Mean of Duolingo  | 89.6       |
+| Mean of Anki     | 82.6       |
+
 
 ```{r}
 # Perform Levene's Test for Equality of Variances
@@ -63,8 +73,16 @@ To better understand the relationship, we add **linear regression lines** for bo
 Given that study hours may be a confounding factor in the analysis, we use **Analysis of Covariance (ANCOVA)** to adjust for the number of study hours. ANCOVA helps us determine whether the final exam score differences between Duolingo and Anki are still significant after controlling for study time.
 
 We compare two models:
+
+
+   
 1. A **full model** that includes both study hours and the interaction term between hours and app type.
+
+$$\text{final} = \beta_0 + \beta_1(\text{hours}) + \beta_2(\text{duolingo}) + \beta_3(\text{hours} \times \text{duolingo}) + \epsilon$$
+
 2. A **reduced model** that includes study hours and app type but omits the interaction term.
+
+$$\text{final} = \beta_0 + \beta_1(\text{hours}) + \beta_2(\text{duolingo}) + \epsilon$$
 
  The interaction term of hours and Duolingo is not statistically significant, so we can proceed with a reduced ANCOVA model (not including the interaction term).
 ```{r}
@@ -74,6 +92,23 @@ reduced = lm(final ~ hours + duolingo, data = languages)
 anova(full)
 anova(reduced)
 ```
+
+#### ANCOVA Results (Full Model with Interaction)
+
+| Df             | Sum Sq    | Mean Sq   | F value  | Pr(>F)     |
+|----------------|-----------|-----------|----------|------------|
+| hours          | 1         | 1142.87   | 1142.87  | 73.14      | 1.17e-09   |
+| duolingo       | 1         | 57.45     | 57.45    | 3.68       | 0.0644     |
+| hours:duolingo | 1         | 1.71      | 1.71     | 0.11       | 0.7428     |
+| Residuals      | 31        | 484.38    | 15.63    | NA         | NA         |
+
+#### ANCOVA Results (Reduced Model without Interaction)
+
+| Df             | Sum Sq    | Mean Sq   | F value  | Pr(>F)     |
+|----------------|-----------|-----------|----------|------------|
+| hours          | 1         | 1142.87   | 1142.87  | 75.24      | 6.52e-10   |
+| duolingo       | 1         | 57.45     | 57.45    | 3.78       | 0.0606     |
+| Residuals      | 32        | 486.09    | 15.19    | NA         | NA         |
 
 ### 3.4 Testing Equality of Adjusted Means
 
@@ -91,6 +126,15 @@ reduced = lm(final ~ hours, data = languages)
 anova(full)
 anova(reduced)
 ```
+
+#### Adjusted Means Comparison
+
+| Df             | Sum Sq    | Mean Sq   | F value  | Pr(>F)     |
+|----------------|-----------|-----------|----------|------------|
+| hours          | 1         | 1142.87   | 1142.87  | 75.24      | 6.52e-10   |
+| duolingo       | 1         | 57.45     | 57.45    | 3.78       | 0.0606     |
+| Residuals      | 32        | 486.09    | 15.19    | NA         | NA         |
+
 
 ## Results and Conclusion
 
