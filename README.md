@@ -63,7 +63,7 @@ t.test(duolingo$final, anki$final, alternative = "two.sided", var.equal = FALSE)
 
 Next, we use a **scatterplot** to visualize the relationship between the number of hours students spent using the app and their final exam scores. A scatterplot helps identify any patterns or trends between study hours and exam scores.
 
-To better understand the relationship, we add **linear regression lines** for both Duolingo and Anki groups. This allows us to assess whether there is a consistent trend in the data, and whether the slope of the line differs between the two groups.
+To better understand the relationship, we add **linear regression lines** for both Duolingo and Anki groups. This allows us to assess whether there is a consistent trend in the data, and whether the slope of the line differs between the two groups. We can see that it appears that duolingo users study more hours than Anki users, and the slopes may differ, indicating we should test for an interaction term between app type and hours as well.
 
 <img src="https://github.com/RoryQo/Duolingo-Vs-Anki-Effectivness/blob/main/Figures/graph2.jpg" alt="Scatterplot" width="400"/>
 
@@ -95,20 +95,22 @@ anova(reduced)
 
 #### ANCOVA Results (Full Model with Interaction)
 
-| Df             | Sum Sq    | Mean Sq   | F value  | Pr(>F)     |
-|----------------|-----------|-----------|----------|------------|
-| hours          | 1         | 1142.87   | 1142.87  | 73.14      | 1.17e-09   |
-| duolingo       | 1         | 57.45     | 57.45    | 3.68       | 0.0644     |
-| hours:duolingo | 1         | 1.71      | 1.71     | 0.11       | 0.7428     |
-| Residuals      | 31        | 484.38    | 15.63    | NA         | NA         |
+| Term           | Df | Sum Sq      | Mean Sq     | F value      | Pr(>F)        |
+|---------------|----|------------|------------|-------------|--------------|
+| hours         | 1  | 1142.865956 | 1142.865956 | 73.1432913  | 1.166507e-09 |
+| duolingo      | 1  | 57.445279   | 57.445279   | 3.6764913   | 6.443980e-02 |
+| hours:duolingo | 1  | 1.712905    | 1.712905    | 0.1096257   | 7.427984e-01 |
+| Residuals     | 31 | 484.375860  | 15.625028   | NA          | NA           |
+
 
 #### ANCOVA Results (Reduced Model without Interaction)
 
-| Df             | Sum Sq    | Mean Sq   | F value  | Pr(>F)     |
-|----------------|-----------|-----------|----------|------------|
-| hours          | 1         | 1142.87   | 1142.87  | 75.24      | 6.52e-10   |
-| duolingo       | 1         | 57.45     | 57.45    | 3.78       | 0.0606     |
-| Residuals      | 32        | 486.09    | 15.19    | NA         | NA         |
+| Term      | Df | Sum Sq     | Mean Sq    | F value    | Pr(>F)        |
+|-----------|----|-----------|------------|-----------|---------------|
+| hours     | 1  | 1142.86596 | 1142.86596 | 75.236692  | 6.524577e-10 |
+| duolingo  | 1  | 57.44528   | 57.44528   | 3.781714   | 6.064903e-02 |
+| Residuals | 32 | 486.08877  | 15.19027   | NA         | NA            |
+
 
 ### 3.4 Testing Equality of Adjusted Means
 
@@ -116,24 +118,42 @@ Finally, we test for the **equality of adjusted means** between the two groups (
 
 We compare two models:
 1. A **full model** that includes both hours and app type.
+
+$$\text{final} = \beta_0 + \beta_1 \times \text{hours} + \beta_2 \times \text{duolingo} + \epsilon$$
+
 2. A **reduced model** that only includes hours.
 
-Since the full model with app type produces significantly different results compared to the reduced model, we conclude that app type influences the final exam scores, even after controlling for study hours.
+$$\text{final} = \beta_0 + \beta_1 \times \text{hours} + \epsilon$$
+
+Since the full model with app type produces significantly different results at the 90% confidence level compared to the reduced model, we conclude that app type influences the final exam scores, even after controlling for study hours.
 
 ```{r}
 full = lm(final ~ hours + duolingo, data = languages)
 reduced = lm(final ~ hours, data = languages)
-anova(full)
-anova(reduced)
+
+# Calculate the adjusted means for final exam scores based on hours and app type
+adjusted_means = emmeans(full, ~ duolingo)
+
+# Display the adjusted means
+summary(adjusted_means)
 ```
+#### ANCOV Results
+
+| Term      | Df | Sum Sq     | Mean Sq    | F value    | Pr(>F)        |
+|-----------|----|-----------|------------|-----------|---------------|
+| hours     | 1  | 1142.86596 | 1142.86596 | 75.236692  | 6.524577e-10 |
+| duolingo  | 1  | 57.44528   | 57.44528   | 3.781714   | 6.064903e-02 |
+| Residuals | 32 | 486.08877  | 15.19027   | NA         | NA            |
+
 
 #### Adjusted Means Comparison
 
-| Df             | Sum Sq    | Mean Sq   | F value  | Pr(>F)     |
-|----------------|-----------|-----------|----------|------------|
-| hours          | 1         | 1142.87   | 1142.87  | 75.24      | 6.52e-10   |
-| duolingo       | 1         | 57.45     | 57.45    | 3.78       | 0.0606     |
-| Residuals      | 32        | 486.09    | 15.19    | NA         | NA         |
+| duolingo | Adj Mean  | SE     |
+|----------|---------|----------|
+| 0        | 84.9853 | 1.05993  |
+| 1        | 87.8110 | 0.90654  |
+
+
 
 
 ## Results and Conclusion
