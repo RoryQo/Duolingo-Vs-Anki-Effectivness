@@ -158,8 +158,16 @@ summary(adjusted_means)
 
 ## Results and Conclusion
 
-The analysis indicates that **Duolingo** users tend to perform better on average in final exam scores compared to **Anki** users. Additionally, Duolingo users study for longer periods, likely due to its engaging gamified features. This suggests that Duolingo's design encourages more consistent and longer study sessions.
+Results and Conclusion
 
-Even after adjusting for the total number of study hours, Duolingo users still significantly outperform Anki users. This implies that Duolingo is more effective on a **per-hour basis**, meaning that for the same amount of time spent studying, Duolingo leads to better academic performance.
+The analysis of final exam scores between Duolingo and Anki users reveals several key insights. Duolingo users, on average, scored significantly higher on the final exam compared to Anki users. The mean final exam score for Duolingo users was 89.6, while Anki users had a mean score of 82.6. This difference was statistically significant with a p-value of 0.0035, as indicated by the two-sample t-test results (t = 3.2044, df = 26.279, 95% CI = [2.512, 11.488]).
 
-These findings point to the superior effectiveness of Duolingo in terms of both user engagement and academic outcomes, driven by its interface and structured learning approach. However, further research could investigate other factors such as user preferences, study habits, and the role of different learning strategies in determining the effectiveness of each app. 
+Additionally, the scatter plot analysis showed that Duolingo users spent more time studying on average, which may contribute to their higher scores. This observation aligns with Duolingo's gamified design, which tends to engage users for longer study sessions.
+
+To account for the potential confounding factor of study hours, we used ANCOVA to adjust for the number of study hours. In the final ANCOVA model, which excluded the insignificant interaction term, the p-value for the app type (Duolingo vs. Anki) was 0.0606, which is significant at the 90% confidence level, indicating a trend toward higher scores for Duolingo users after accounting for hours spent studying.
+
+The adjusted means comparison further supports this finding: Duolingo users had an adjusted mean final exam score of 87.81, compared to 84.99 for Anki users, suggesting that Duolingo not only **encourages longer study sessions** but also yields better academic outcomes on a **per-hour basis**.
+
+In conclusion, Duolingo appears to be superior to Anki in terms of both user engagement and academic performance. The gamified features of Duolingo likely contribute to longer study durations, which in turn lead to improved performance. Despite controlling for study hours, Duolingo users continue to outperform their Anki counterparts, suggesting that Duolingo’s design is more conducive to effective language learning. However, further research could explore additional factors such as app preferences, and specific learning strategies to provide a more comprehensive understanding of the platforms’ effectiveness.
+
+
